@@ -1,0 +1,6 @@
+# 설치 상세 로그 (머신마다 다름)
+install_log
+# 에디터 · OS
+.vscode/
+*.swp
+.DS_Store
