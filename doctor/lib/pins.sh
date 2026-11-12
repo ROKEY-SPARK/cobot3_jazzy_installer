@@ -28,7 +28,7 @@ DOCKER_HELD_PKGS="docker-ce docker-ce-cli containerd.io"
 # --- 협동1 -----------------------------------------------------------------
 COBOT1_WS="${HOME}/ws_cobot_pjt/ws_dsr"
 COBOT1_REPO_REF=4d5657f36a160eedb533ab1c975cd8a30c3e53b2
-COBOT1_DDS_MARKER="# >>> cobot2_jazzy_installer cyclonedds env >>>"
+COBOT1_DDS_MARKER="# >>> cobot2_jazzy_installer cyclonedds env >>>"  # hostcfg.sh DDS_BEGIN · main 협동2 블록과 같은 이름
 
 # --- 협동2 -----------------------------------------------------------------
 NVIDIA_DRIVER_VERSION=595
@@ -36,8 +36,10 @@ DSR_WORKSPACE="${HOME}/cobot2_ws"
 DSR_COMMIT=31750d68ed2855c780a8169c39aadb0a2cd80e1f
 ONROBOT_COMMIT=c6e390313e831a2e54a0ad5894b2911cc360a16a
 M0609_REPO_DIR="${HOME}/m0609_rg2_integration"
-COBOT2_ENV_MARKER="# >>> cobot2_jazzy_installer env >>>"
+COBOT2_ENV_MARKER="# >>> cobot2_jazzy_installer env >>>"            # dev 설치기 (lib.sh bashrc_sync_block)
 COBOT2_ENV_MARKER_END="# <<< cobot2_jazzy_installer env <<<"
+COBOT2_DDS_MARKER="# >>> cobot2_jazzy_installer cyclonedds env >>>"  # main 설치기 (hostcfg.sh dds) · 협동1 과 같은 블록
+COBOT2_DDS_MARKER_END="# <<< cobot2_jazzy_installer cyclonedds env <<<"
 YOLO_IMAGE_SUFFIX=ros2-jazzy-yolo:dev-builder   # 앞부분 = docker.io/<DOCKERHUB_USER 또는 local>
 
 # --- 협동3 · 지능1 공통 -------------------------------------------------------

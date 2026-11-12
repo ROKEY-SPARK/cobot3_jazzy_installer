@@ -111,3 +111,16 @@ test_cobot3_bridge_lib_path_matches_isaac_sim_5_1_layout() {
     rm -r "${ISAACSIM_DIR}/exts"
     assert_contains "$(check_cobot3)" "없음: ${ISAACSIM_DIR}/exts/isaacsim.ros2.bridge/jazzy/lib"
 }
+
+# main 협동2 설치기 (hostcfg.sh dds) 는 cyclonedds env 블록, dev 는 env 블록을 쓴다 → 어느 쪽이든 통과
+test_cobot2_env_block_accepts_main_and_dev_markers() {
+    _load
+    printf '# >>> cobot2_jazzy_installer cyclonedds env >>>\nexport X=1\n# <<< cobot2_jazzy_installer cyclonedds env <<<\n' > "${BASHRC}"
+    assert_eq "$(rc cobot2_env_block_ok)" "0"
+    printf '# >>> cobot2_jazzy_installer env >>>\nexport X=1\n# <<< cobot2_jazzy_installer env <<<\n' > "${BASHRC}"
+    assert_eq "$(rc cobot2_env_block_ok)" "0"
+    printf 'export X=1\n' > "${BASHRC}"
+    assert_contains "$(cobot2_env_block_ok || true)" "블록 없음"
+    printf '# >>> cobot2_jazzy_installer env >>>\nexport X=1\n' > "${BASHRC}"
+    assert_eq "$(rc cobot2_env_block_ok)" "1"
+}

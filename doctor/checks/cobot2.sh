@@ -56,6 +56,18 @@ legacy_paths_absent() {
     return "${bad}"
 }
 
+# 협동2 bashrc 환경 블록. 설치기 브랜치마다 블록 이름이 달라 (dev = env, main = cyclonedds env) 있는 쪽을 본다
+cobot2_env_block_ok() {
+    if grep -qxF -- "${COBOT2_ENV_MARKER}" "${BASHRC}" 2>/dev/null; then
+        bashrc_block_ok "${COBOT2_ENV_MARKER}" "${COBOT2_ENV_MARKER_END}"
+    elif grep -qxF -- "${COBOT2_DDS_MARKER}" "${BASHRC}" 2>/dev/null; then
+        bashrc_block_ok "${COBOT2_DDS_MARKER}" "${COBOT2_DDS_MARKER_END}"
+    else
+        echo "블록 없음: ${COBOT2_ENV_MARKER} 또는 ${COBOT2_DDS_MARKER}"
+        return 1
+    fi
+}
+
 check_cobot2() {
     local ws="${DSR_WORKSPACE}" ov="${DSR_WORKSPACE}/install/setup.bash" ros="ros-${ROS_DISTRO}"
     local base="bash install.sh (협동2 설치기, 끝난 단계는 건너뜀)" app="bash setup-app.sh (협동2 설치기)"
@@ -71,7 +83,7 @@ check_cobot2() {
             "sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker" docker_nvidia_runtime
     fi
     check fail "~/.bashrc 협동2 env 블록 (1개 · 시작/끝 짝)" "협동2 설치기 bash resources/hostcfg.sh dds" \
-        bashrc_block_ok "${COBOT2_ENV_MARKER}" "${COBOT2_ENV_MARKER_END}"
+        cobot2_env_block_ok
     check warn "옛 이름 경로 · bashrc 블록 없음" "${app}" legacy_paths_absent
     check fail "cobot2 소스 배치 (${ws}/src/cobot2)" "강사 안내대로 cobot2 소스를 ${ws}/src/cobot2 에 배치" \
         bash -c 'compgen -G "$1/src/cobot2/*/package.xml" >/dev/null || compgen -G "$1/src/cobot2/*/*/package.xml" >/dev/null || { echo "package.xml 없음"; exit 1; }' _ "${ws}"

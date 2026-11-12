@@ -77,6 +77,11 @@ test_pins_match_markers_and_templates() {
         if grep -q '^DDS_BEGIN=' "${root}/resources/hostcfg.sh" 2>/dev/null; then
             grep -qF "DDS_BEGIN=\"${COBOT1_DDS_MARKER}\"" "${root}/resources/hostcfg.sh"
         fi
+        # main 협동2 설치기 = hostcfg.sh dds 가 블록을 직접 씀
+        if grep -q '^ *BEGIN_MARK=' "${root}/resources/hostcfg.sh" 2>/dev/null; then
+            grep -qF "BEGIN_MARK=\"${COBOT2_DDS_MARKER}\"" "${root}/resources/hostcfg.sh"
+            grep -qF "END_MARK=\"${COBOT2_DDS_MARKER_END}\"" "${root}/resources/hostcfg.sh"
+        fi
         if grep -q 'bashrc_sync_block()' "${root}/resources/lib.sh" 2>/dev/null; then
             grep -qF "local begin=\"${COBOT2_ENV_MARKER}\"" "${root}/resources/lib.sh"
             assert_eq "doosanrobot/dsr_emulator:$(_installer_var "${root}/resources/config.sh" DSR_EMULATOR_VERSION)" \
