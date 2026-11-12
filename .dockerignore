@@ -3,3 +3,4 @@ install_log
 tests
 docker
 *.md
+doctor

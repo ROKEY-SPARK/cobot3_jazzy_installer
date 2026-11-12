@@ -133,3 +133,16 @@ bash install.sh --dry-run          # 실행할 단계 목록
 - 버전 핀 · 경로 = `resources/config.sh` 한 곳. 환경변수로 덮어쓸 수 있다 (예: `COBOT3_WS=~/my_ws`)
 - 단계 순서 = `resources/courses.sh` · 단계 구현 = `resources/<base|cobot3>.sh`
 - 단계 이름은 state 키다 (`~/.rokey_jazzy_installer/cobot3.state`) → 이름을 바꾸면 기존 설치의 재개 기록이 끊긴다
+
+## 부록: 진단기
+
+설치가 끝난 뒤나 수업 중 문제가 생겼을 때 PC 상태를 점검한다. 읽기 전용이고 sudo가 필요 없다.
+
+```bash
+bash doctor/doctor.sh          # 설치 흔적으로 강의 자동 감지 (협동1, 협동2, 협동3, 지능1)
+bash doctor/doctor.sh --help
+```
+
+- 설치 누락, 패키지 깨짐, 공통 시스템 오류 (apt, 드라이버, DDS 설정 등)를 PASS, WARN, FAIL, SKIP으로 표시하고 FAIL 아래에 복구 방법을 적는다
+- `--verify`는 이 설치기가 깐 것만 확인한다. 진단기는 같은 PC의 다른 강의와 공통 오류까지 확인한다
+- 점검 항목, 옵션, 개발 방법: [doctor/README.md](doctor/README.md)
